@@ -1,9 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 import { Cloth } from './Cloth';
 import { Material } from './Material';
+import { BaseEntity } from './BaseEntity';
 
 @Entity()
-export class ClothMaterial {
+export class ClothMaterial extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

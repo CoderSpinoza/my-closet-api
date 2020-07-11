@@ -4,19 +4,16 @@ import {
   Column,
   ManyToOne,
   OneToMany,
-  JoinTable,
 } from 'typeorm';
-import { User } from './user';
-import { type } from 'os';
+import { User } from './User';
 import { Brand } from './Brand';
-import { Material } from './Material';
 import { ClothMaterial } from './ClothMaterial';
 import { Color } from './Color';
 import { Type } from './Type';
 import { ClothMonth } from './ClothMonth';
-
+import { BaseEntity } from './BaseEntity';
 @Entity()
-export class Cloth {
+export class Cloth extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -27,14 +24,12 @@ export class Cloth {
     type => User,
     user => user.clothes,
   )
-  @Column()
   owner: User;
 
   @ManyToOne(
     type => Brand,
     brand => brand.clothes,
   )
-  @Column()
   brand: Brand;
 
   @ManyToOne(

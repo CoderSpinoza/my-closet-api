@@ -1,8 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Cloth } from './Cloth';
+import { BaseEntity } from './BaseEntity';
 
 @Entity()
-export class ClothMonth {
+export class ClothMonth extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

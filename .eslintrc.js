@@ -10,6 +10,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'prettier/@typescript-eslint',
+    'plugin:prettier/recommended', // this is necessary to combine eslint + prettier format on save
   ],
   root: true,
   env: {

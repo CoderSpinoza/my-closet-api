@@ -1,0 +1,53 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Automated Integration Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql
+        env:
+          MYSQL_ROOT_PASSWORD: mysql
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 3306:3306
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    # Downloads a copy of the code in your repository before running CI tests
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    # Performs a clean installation of all dependencies in the `package.json` file
+    # For more information, see https://docs.npmjs.com/cli/ci.html
+    - name: Install dependencies 
+      run: yarn install --frozen-lockfile
+    - name: Run integration tests
+      run: yarn test:cov
+      env:
+        TEST_DATABASE_URL: mysql://root:mysql@localhost:3306/my_closet_test
+    - name: Upload coverage report to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: integrationtests
+        file: ./coverage/lcov.info
+        fail_ci_if_error: false

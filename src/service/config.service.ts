@@ -7,6 +7,8 @@ import { Color } from '../entity/Color';
 import { Material } from '../entity/Material';
 import { ClothMaterial } from '../entity/ClothMaterial';
 import { ClothMonth } from '../entity/ClothMonth';
+import { entities } from '../entity';
+
 require('dotenv').config();
 
 class ConfigService {
@@ -39,16 +41,24 @@ class ConfigService {
     return {
       type: 'mysql',
       url: this.getValue('DATABASE_URL'),
-      entities: [
-        User,
-        Cloth,
-        Brand,
-        Type,
-        Color,
-        Material,
-        ClothMaterial,
-        ClothMonth,
-      ],
+      entities,
+      synchronize: true,
+      // entities: ['**/entity/*.{ts,js}'],
+      // migrationsTableName: 'migration',
+
+      // migrations: ['src/migration/*.ts'],
+
+      // cli: {
+      //   migrationsDir: 'src/migration',
+      // },
+      ssl: this.isProduction(),
+    };
+  }
+  public getTestTypeOrmConfig(): TypeOrmModuleOptions {
+    return {
+      type: 'mysql',
+      url: this.getValue('TEST_DATABASE_URL'),
+      entities,
       synchronize: true,
       // entities: ['**/entity/*.{ts,js}'],
       // migrationsTableName: 'migration',

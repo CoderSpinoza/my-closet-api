@@ -1,18 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { repositoryMockFactory, MockType } from '../helpers/test';
 import { ClothesController } from './clothes.controller';
 import { ClothesService } from '../service/clothes.service';
-import { Repository } from 'typeorm';
 import { Cloth } from '../entity/Cloth';
-import { getRepositoryToken } from '@nestjs/typeorm';
-
-export type MockType<T> = {
-  [P in keyof T]: jest.Mock<any>;
-};
-
-export const repositoryMockFactory: () => any = jest.fn(() => ({
-  find: jest.fn(entity => entity),
-  // ...
-}));
 
 describe('ClothesController', () => {
   let controller: ClothesController;

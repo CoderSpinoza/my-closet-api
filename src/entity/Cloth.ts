@@ -12,6 +12,7 @@ import { Color } from './Color';
 import { Type } from './Type';
 import { ClothMonth } from './ClothMonth';
 import { BaseEntity } from './BaseEntity';
+
 @Entity()
 export class Cloth extends BaseEntity {
   @PrimaryGeneratedColumn()
